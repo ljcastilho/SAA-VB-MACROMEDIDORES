@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MACROS SAA VB</title>
+    <!-- Tailwind CSS CDN para estilização fácil e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adicionando a fonte Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-lg p-6 md:p-8 w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">MACROS SAA VB</h1>
+        <p class="text-center text-gray-600 mb-8">
+            Seu identificador de usuário para este aplicativo é: <span id="user-id" class="font-mono text-xs bg-gray-200 px-2 py-1 rounded-md">Carregando...</span>
+        </p>
+
+        <!-- Formulário de Registro -->
+        <form id="registro-form" class="space-y-4">
+            <div>
+                <label for="data" class="block text-sm font-medium text-gray-700">Data</label>
+                <input type="date" id="data" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="macromedidor" class="block text-sm font-medium text-gray-700">Macromedidor</label>
+                <select id="macromedidor" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500">
+                    <option value="" disabled selected>Selecione um macromedidor</option>
+                    <option value="P1">P1</option>
+                    <option value="P1-R1">P1-R1</option>
+                    <option value="P2">P2</option>
+                    <option value="P2-R1">P2-R1</option>
+                    <option value="DMC 01">DMC 01</option>
+                    <option value="DMC 02 GIASSON">DMC 02 GIASSON</option>
+                    <option value="DMC 03 BRASILIA">DMC 03 BRASILIA</option>
+                    <option value="DMC 04 DOMICILIA">DMC 04 DOMICILIA</option>
+                    <option value="DMC 05 BELA VISTA">DMC 05 BELA VISTA</option>
+                    <option value="DMC 06 ALVORADA">DMC 06 ALVORADA</option>
+                    <option value="DMC 07 ANZOLIN">DMC 07 ANZOLIN</option>
+                    <option value="DMC 08 ARAMIS">DMC 08 ARAMIS</option>
+                </select>
+            </div>
+            <div>
+                <label for="volume" class="block text-sm font-medium text-gray-700">Volume (m³)</label>
+                <input type="number" id="volume" required step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500">
+            </div>
+            <div class="pt-4">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    Registrar
+                </button>
+            </div>
+        </form>
+
+        <!-- Área de Configuração de Alertas -->
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Configuração de Alertas</h2>
+            <form id="alerta-form" class="space-y-4">
+                <div>
+                    <label for="alerta-macromedidor" class="block text-sm font-medium text-gray-700">Macromedidor</label>
+                    <select id="alerta-macromedidor" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500">
+                        <option value="" disabled selected>Selecione um macromedidor</option>
+                        <option value="P1">P1</option>
+                        <option value="P1-R1">P1-R1</option>
+                        <option value="P2">P2</option>
+                        <option value="P2-R1">P2-R1</option>
+                        <option value="DMC 01">DMC 01</option>
+                        <option value="DMC 02 GIASSON">DMC 02 GIASSON</option>
+                        <option value="DMC 03 BRASILIA">DMC 03 BRASILIA</option>
+                        <option value="DMC 04 DOMICILIA">DMC 04 DOMICILIA</option>
+                        <option value="DMC 05 BELA VISTA">DMC 05 BELA VISTA</option>
+                        <option value="DMC 06 ALVORADA">DMC 06 ALVORADA</option>
+                        <option value="DMC 07 ANZOLIN">DMC 07 ANZOLIN</option>
+                        <option value="DMC 08 ARAMIS">DMC 08 ARAMIS</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="alerta-limite" class="block text-sm font-medium text-gray-700">Limite de Volume (m³)</label>
+                    <input type="number" id="alerta-limite" required step="0.01" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-orange-600 text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                        Salvar Alerta
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Área de Relatórios -->
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Relatórios</h2>
+            <button id="gerar-relatorio-btn" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                Gerar Relatório de Médias
+            </button>
+            <div id="loading-report" class="text-center text-gray-500 italic mt-4 hidden">Gerando relatório...</div>
+            <div id="alerta-message-container" class="mt-4 hidden p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded-lg">
+                <p class="font-bold">Alerta de Volume Anormal!</p>
+                <ul id="alerta-lista" class="list-disc list-inside mt-2"></ul>
+            </div>
+            <div id="report-container" class="mt-6 hidden">
+                <h3 class="text-lg font-semibold text-gray-700 mb-4">Média Diária de Volume (m³)</h3>
+                <canvas id="daily-avg-chart"></canvas>
+                <div id="report-details" class="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <h4 class="text-md font-semibold text-gray-700 mb-2">Resumo Mensal</h4>
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Macromedidor</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Média Diária (m³)</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume Mensal (m³)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-table-body" class="bg-white divide-y divide-gray-200">
+                            <!-- Detalhes do relatório serão inseridos aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="no-report-data" class="text-center text-gray-500 italic mt-4 hidden">Não há dados suficientes para gerar o relatório (mínimo de 2 registros por macromedidor).</div>
+        </div>
+
+        <!-- Área de Exibição dos Registros -->
+        <div class="mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Registros Recentes</h2>
+            <div id="loading" class="text-center text-gray-500 italic">Carregando registros...</div>
+            <ul id="registros-lista" class="space-y-4"></ul>
+            <div id="no-data" class="text-center text-gray-500 italic hidden">Nenhum registro encontrado.</div>
+        </div>
+    </div>
+
+    <!-- Scripts do Firebase e Lógica do App -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, addDoc, setDoc, onSnapshot, collection, query, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Variáveis globais fornecidas pelo ambiente.
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db, auth, userId;
+        let myChart = null;
+
+        // Elementos da UI
+        const registroForm = document.getElementById('registro-form');
+        const registrosLista = document.getElementById('registros-lista');
+        const loadingMessage = document.getElementById('loading');
+        const noDataMessage = document.getElementById('no-data');
+        const userIdDisplay = document.getElementById('user-id');
+        const gerarRelatorioBtn = document.getElementById('gerar-relatorio-btn');
+        const loadingReportMessage = document.getElementById('loading-report');
+        const reportContainer = document.getElementById('report-container');
+        const noReportDataMessage = document.getElementById('no-report-data');
+        const reportTableBody = document.getElementById('report-table-body');
+        const alertaForm = document.getElementById('alerta-form');
+        const alertaMacromedidor = document.getElementById('alerta-macromedidor');
+        const alertaLimite = document.getElementById('alerta-limite');
+        const alertaMessageContainer = document.getElementById('alerta-message-container');
+        const alertaLista = document.getElementById('alerta-lista');
+
+        // Função para formatar a data
+        function formatarData(timestamp) {
+            if (timestamp && typeof timestamp.toDate === 'function') {
+                const date = timestamp.toDate();
+                return date.toLocaleDateString('pt-BR');
+            }
+            return new Date(timestamp).toLocaleDateString('pt-BR');
+        }
+
+        // Inicializar Firebase
+        if (firebaseConfig) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Autenticar o usuário
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        userIdDisplay.textContent = userId;
+                        console.log("Usuário autenticado:", userId);
+
+                        const registrosCollectionPath = `/artifacts/${appId}/users/${userId}/registros_macromedidores`;
+                        const q = query(collection(db, registrosCollectionPath));
+
+                        // Escutar por mudanças em tempo real para a lista de registros
+                        onSnapshot(q, (querySnapshot) => {
+                            registrosLista.innerHTML = '';
+                            loadingMessage.classList.add('hidden');
+                            if (querySnapshot.empty) {
+                                noDataMessage.classList.remove('hidden');
+                            } else {
+                                noDataMessage.classList.add('hidden');
+                                const registros = [];
+                                querySnapshot.forEach((doc) => {
+                                    registros.push({ id: doc.id, ...doc.data() });
+                                });
+                                // Ordenar por timestamp em ordem decrescente
+                                registros.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+                                
+                                registros.forEach((docData) => {
+                                    const li = document.createElement('li');
+                                    li.className = 'bg-gray-50 rounded-lg p-4 shadow-sm';
+                                    const dataFormatada = formatarData(docData.timestamp);
+                                    li.innerHTML = `
+                                        <div class="flex flex-col sm:flex-row justify-between">
+                                            <div class="font-bold text-lg text-blue-700">${docData.macromedidor}</div>
+                                            <div class="text-sm text-gray-500">${dataFormatada}</div>
+                                        </div>
+                                        <div class="text-gray-800">Volume: <span class="font-semibold">${docData.volume} m³</span></div>
+                                    `;
+                                    registrosLista.appendChild(li);
+                                });
+                            }
+                        });
+
+                    } else {
+                        console.log("Nenhum usuário logado. Tentando entrar com token...");
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken).catch(error => console.error("Erro ao autenticar com token:", error));
+                        } else {
+                            await signInAnonymously(auth).catch(error => console.error("Erro ao autenticar anonimamente:", error));
+                        }
+                    }
+                });
+
+            } catch (e) {
+                console.error("Erro ao inicializar o Firebase: ", e);
+            }
+        } else {
+            loadingMessage.textContent = 'Configuração do Firebase não encontrada. O aplicativo não pode ser iniciado.';
+            console.error('Firebase config not found');
+        }
+
+        // Lidar com o envio do formulário de registro
+        registroForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = document.getElementById('data').value;
+            const macromedidor = document.getElementById('macromedidor').value;
+            const volume = parseFloat(document.getElementById('volume').value);
+
+            if (!data || !macromedidor || isNaN(volume) || !db) {
+                console.error("Dados inválidos ou Firebase não inicializado.");
+                return;
+            }
+
+            const novoRegistro = {
+                data: data,
+                macromedidor: macromedidor,
+                volume: volume,
+                timestamp: new Date()
+            };
+
+            const registrosCollectionPath = `/artifacts/${appId}/users/${userId}/registros_macromedidores`;
+            
+            try {
+                await addDoc(collection(db, registrosCollectionPath), novoRegistro);
+                registroForm.reset();
+                console.log("Registro adicionado com sucesso!");
+            } catch (e) {
+                console.error("Erro ao adicionar o documento: ", e);
+            }
+        });
+
+        // Lidar com o envio do formulário de alerta
+        alertaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const medidor = alertaMacromedidor.value;
+            const limite = parseFloat(alertaLimite.value);
+
+            if (!medidor || isNaN(limite) || !db) {
+                console.error("Dados de alerta inválidos ou Firebase não inicializado.");
+                return;
+            }
+
+            const alertaDocPath = `/artifacts/${appId}/users/${userId}/alert_thresholds/macromedidor_${medidor.replace(/\s/g, '_')}`;
+            
+            try {
+                await setDoc(doc(db, alertaDocPath), {
+                    macromedidor: medidor,
+                    limite: limite
+                });
+                console.log(`Alerta para ${medidor} salvo com sucesso!`);
+            } catch (e) {
+                console.error("Erro ao salvar o alerta: ", e);
+            }
+        });
+
+        // Lógica de geração do relatório
+        gerarRelatorioBtn.addEventListener('click', async () => {
+            if (!userId || !db) {
+                console.error("Usuário não autenticado ou Firebase não inicializado.");
+                return;
+            }
+
+            loadingReportMessage.classList.remove('hidden');
+            reportContainer.classList.add('hidden');
+            alertaMessageContainer.classList.add('hidden');
+            alertaLista.innerHTML = '';
+            noReportDataMessage.classList.add('hidden');
+
+            const registrosCollectionPath = `/artifacts/${appId}/users/${userId}/registros_macromedidores`;
+            const alertasCollectionPath = `/artifacts/${appId}/users/${userId}/alert_thresholds`;
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, registrosCollectionPath));
+                const registros = [];
+                querySnapshot.forEach(doc => registros.push(doc.data()));
+
+                if (registros.length < 2) {
+                    noReportDataMessage.classList.remove('hidden');
+                    loadingReportMessage.classList.add('hidden');
+                    return;
+                }
+
+                const volumesCalculados = calcularVolumes(registros);
+                
+                if (Object.keys(volumesCalculados).length > 0) {
+                    const alertasSnapshot = await getDocs(collection(db, alertasCollectionPath));
+                    const alertas = {};
+                    alertasSnapshot.forEach(doc => {
+                        const data = doc.data();
+                        alertas[data.macromedidor] = data.limite;
+                    });
+
+                    renderizarGrafico(volumesCalculados);
+                    renderizarTabela(volumesCalculados, alertas);
+                    
+                    const macrossAcimaDoLimite = Object.keys(volumesCalculados).filter(medidor => {
+                        const limite = alertas[medidor];
+                        const media = parseFloat(volumesCalculados[medidor].mediaDiaria);
+                        return limite && media > limite;
+                    });
+                    
+                    if (macrossAcimaDoLimite.length > 0) {
+                        alertaMessageContainer.classList.remove('hidden');
+                        macrossAcimaDoLimite.forEach(medidor => {
+                            const li = document.createElement('li');
+                            const media = volumesCalculados[medidor].mediaDiaria;
+                            const limite = alertas[medidor];
+                            li.textContent = `O ${medidor} está com média de ${media} m³, acima do limite de ${limite} m³!`;
+                            alertaLista.appendChild(li);
+                        });
+                    }
+
+                    reportContainer.classList.remove('hidden');
+                } else {
+                    noReportDataMessage.classList.remove('hidden');
+                }
+
+                loadingReportMessage.classList.add('hidden');
+
+            } catch (e) {
+                console.error("Erro ao gerar o relatório: ", e);
+                loadingReportMessage.classList.add('hidden');
+            }
+        });
+
+        function calcularVolumes(registros) {
+            // Agrupar registros por macromedidor
+            const agrupadoPorMedidor = {};
+            registros.forEach(reg => {
+                const key = reg.macromedidor;
+                if (!agrupadoPorMedidor[key]) {
+                    agrupadoPorMedidor[key] = [];
+                }
+                agrupadoPorMedidor[key].push(reg);
+            });
+
+            const resultados = {};
+            for (const medidor in agrupadoPorMedidor) {
+                const registrosMedidor = agrupadoPorMedidor[medidor];
+
+                // Ordenar por data para calcular a diferença
+                registrosMedidor.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+                if (registrosMedidor.length < 2) continue; // Pular se não houver leituras suficientes
+
+                let volumesDiarios = [];
+                let totalVolumeMensal = 0;
+                let totalDias = 0;
+
+                for (let i = 1; i < registrosMedidor.length; i++) {
+                    const leituraAtual = registrosMedidor[i].volume;
+                    const leituraAnterior = registrosMedidor[i-1].volume;
+                    const dataAtual = new Date(registrosMedidor[i].data);
+                    const dataAnterior = new Date(registrosMedidor[i-1].data);
+
+                    const diferencaDias = (dataAtual.getTime() - dataAnterior.getTime()) / (1000 * 60 * 60 * 24);
+                    
+                    if (diferencaDias > 0) {
+                        const volumeDiario = (leituraAtual - leituraAnterior) / diferencaDias;
+                        volumesDiarios.push(volumeDiario);
+                        totalVolumeMensal += (leituraAtual - leituraAnterior);
+                        totalDias += diferencaDias;
+                    }
+                }
+
+                if (volumesDiarios.length > 0) {
+                    const mediaDiaria = volumesDiarios.reduce((sum, current) => sum + current, 0) / volumesDiarios.length;
+                    resultados[medidor] = {
+                        mediaDiaria: mediaDiaria.toFixed(2),
+                        volumeMensal: totalVolumeMensal.toFixed(2)
+                    };
+                }
+            }
+            return resultados;
+        }
+
+        function renderizarGrafico(volumesCalculados) {
+            const canvas = document.getElementById('daily-avg-chart');
+            const ctx = canvas.getContext('2d');
+
+            if (myChart) {
+                myChart.destroy(); // Destruir o gráfico anterior se ele existir
+            }
+
+            const labels = Object.keys(volumesCalculados);
+            const data = labels.map(label => volumesCalculados[label].mediaDiaria);
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Média Diária',
+                        data: data,
+                        backgroundColor: 'rgba(59, 130, 246, 0.6)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Volume (m³)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderizarTabela(volumesCalculados, alertas) {
+            reportTableBody.innerHTML = '';
+            for (const medidor in volumesCalculados) {
+                const mediaDiaria = parseFloat(volumesCalculados[medidor].mediaDiaria);
+                const limiteAlerta = alertas[medidor] || 0;
+                const isAlerta = limiteAlerta > 0 && mediaDiaria > limiteAlerta;
+                
+                const tr = document.createElement('tr');
+                tr.classList.add(isAlerta ? 'bg-red-200' : 'bg-white');
+
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium ${isAlerta ? 'text-red-900 font-bold' : 'text-gray-900'}">${medidor}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${isAlerta ? 'text-red-700' : 'text-gray-500'}">${volumesCalculados[medidor].mediaDiaria} m³</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm ${isAlerta ? 'text-red-700' : 'text-gray-500'}">${volumesCalculados[medidor].volumeMensal} m³</td>
+                `;
+                reportTableBody.appendChild(tr);
+            }
+        }
+    </script>
+</body>
+</html>
